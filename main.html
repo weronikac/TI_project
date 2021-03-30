@@ -1,0 +1,171 @@
+<!-- index.ejs -->
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link rel="stylesheet" href="divs.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="login.js" type="text/javascript"></script> 
+    
+    <title>Ankieta</title>
+  </head>
+
+  <body onload="whichNav()">
+    <div clas="header">
+      <div class="image">
+        <img src="ikona.png" alt="icon" style="width:100%">
+      </div>
+      <div class="txt">
+        <h1>Ankieta - ekologia</h1> 
+      </div>
+    </div>
+    
+<div class="center">
+    <div id="nav">      
+      <a onclick="showForm()">Wypełnij ankietę</a>
+      <a onclick="showData()">Zobacz wyniki ankiety</a>
+      <a onclick="showLogin()">Zaloguj się</a>
+      <a onclick="showRegister()">Zarejestruj się</a>  
+    </div>
+
+    <div id="navform" style="height:48px;"><br></div>
+
+    <div id="navlogged">          
+        <a onclick="showForm()">Wypełnij ankietę</a>
+        <a onclick="showData()">Zobacz wyniki ankiety</a>
+        <a onclick="sendToBase()">Prześlij dane z lokalnej bazy na serwer</a>
+        <a onclick="logout()">Wyloguj się</a>
+      </div>
+
+      <div id="navlz">     
+        <a onclick="showRegister()">Zarejestruj się</a>
+        <a onclick="showLogin()">Zaloguj się</a>   
+      </div>
+
+      <div id="dok">
+        <h2>Informacje</h2>
+        <p  style="font-weight: normal;" >Tematem projektu jest prosta aplikacja do zbierania wyników ankiety dotyczącej ekologii. W trybie off-line użytkownik nie może zalogować się do aplikacji, nie ma połączenia z serwerem. Użytkownik niezalogowany może wypełnić ankietę oraz zobaczyć wyniki zapisane w bazie przeglądarki. Po zalogowaniu (połączenie z serwerem) wyniki ankiety wypełnionej przez użytkownika są zapisywane do kolekcji w bazie MongoDB. Zalogowany użytkownik może również przesłać wyniki z lokalnej bazy IndexedDB do bazy MongoDB klikając odpowiednią opcję w menu. Przesłane dane są usunięte z bazy przeglądarki.</p> <br>
+        Wykorzystane technologie:
+        <li>HTML 5, CSS 3 - projekt strony,</li>
+        <li>JavaScript - połączenie między klientem a serwerem z wykorzystaniem funkcjonalności Fetch, walidacja &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danych, obsługa bazy IndexedDB,</li>
+        <li>Node.js - połączenie z bazą MongoDB, REST API, framework Express,</li>
+        <li>biblioteka Chart.js - tworzenie wykresów.</li>
+        
+       
+      </div>
+
+    <div id="form">
+        <br>
+        <form name="form_ecology" id="form_ecology" style="width:500px;margin:auto">
+
+            <label for="date">Data:</label>
+            <input type="date" id="date" name="date">
+    
+            <p>Miejsce zamieszkania:</p>
+            <input type="radio" id="village" name="place" value="village">
+            <label for="village"> Wieś </label><br>
+            <input type="radio" id="town" name="place" value="town">
+            <label for="town"> Miasto </label><br>
+    
+            <p>Czy segreguje Pan/Pani śmieci?</p>
+            <input type="radio" id="yes" name="segregation" value="yes">
+            <label for="yes"> Tak </label><br>
+            <input type="radio" id="no" name="segregation" value="no">
+            <label for="no"> Nie </label><br>
+    
+            <p>Jak często korzysta Pan/Pani z jednorazowych sztućców?</p>
+            <input type="radio" id="often" name="disposable" value="often">
+            <label for="often"> Często </label><br>
+            <input type="radio" id="rarely" name="disposable" value="rarely">
+            <label for="rarely"> Rzadko </label><br>
+            <input type="radio" id="never" name="disposable" value="never">
+            <label for="never"> Nigdy </label><br>
+    
+    
+            <p>Czy uważa Pan/Pani, że smog jest realnym zagrożeniem?</p>
+            <input type="radio" id="smog_yes" name="smog" value="smog_yes">
+            <label for="smog_yes"> Tak </label><br>
+            <input type="radio" id="smog_no" name="smog" value="smog_no">
+            <label for="smog_no"> Nie </label><br>
+            <input type="radio" id="smog_no_opinion" name="smog" value="smog_no_opinion">
+            <label for="smog_no_opinion"> Nie mam zdania </label><br>
+            <br>
+            <button type="button" class="btn" onclick="sendAnswers();" >Wyślij odpowiedzi</button>	
+        </form>
+        <br>
+        <div id="home" style="width:500px;margin:auto">
+            <button type="button" class="btn" onclick ="toMain()" >Powrót na stronę główną</button>
+          </div>
+    </div>
+
+    <div id="login">
+        <form name="form_login" id="form_login"  style="width:500px;margin:auto">
+            <h2>Logowanie</h2>  
+            <div class="input-container">
+              <i class="fa fa-envelope icon"></i>
+              <input class="input-field" type="text" placeholder="email" name="email">
+            </div>       
+            <div class="input-container">
+              <i class="fa fa-key icon"></i>
+              <input class="input-field" type="password" placeholder="password" name="password">
+            </div>      
+            <button type="button" class="btn" onclick="login();" >Zaloguj się</button>
+          </form>
+          <br>
+        <div id="home" style="width:500px;margin:auto">
+          <button type="button" class="btn" onclick ="toMain()" >Powrót na stronę główną</button>
+          </div>
+    </div>
+
+    <div id="register">
+        <form name="form_register" id="form_register" style="width:500px;margin:auto">
+            <h2>Rejestracja</h2>  
+            <div class="input-container">
+              <i class="fa fa-envelope icon"></i>
+              <input class="input-field" type="text" placeholder="email" name="email">
+            </div>       
+            <div class="input-container">
+              <i class="fa fa-key icon"></i>
+              <input class="input-field" type="password" placeholder="password" name="password">
+            </div>      
+            <button type="button" class="btn" onclick="register();" >Zarejestruj się</button>
+          </form>
+          <br>
+          <div id="resp">
+            
+          </div>
+          <div id="home" style="width:500px;margin:auto">
+            <button type="button" class="btn" onclick ="toMain()" >Powrót na stronę główną</button>
+          </div>
+    </div>
+    
+    
+    
+    <div id="charts">
+        <div id="info" style="text-align: center;"></div>
+      <div class="chart-container">
+        <canvas id="myChart"></canvas>
+      </div>
+      <br>
+      <div class="chart-container">
+        <canvas id="myChart2"></canvas>
+      </div>
+      <br>
+      <div class="chart-container">
+        <canvas id="myChart3"></canvas>
+      </div>
+      <br>
+      <div class="chart-container">
+        <canvas id="myChart4"></canvas>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="draw.js" type="text/javascript"></script>
+    <script src="divs.js" type="text/javascript"></script> 
+    <script src="form.js" type="text/javascript"></script>
+  </div>
+  </body>
+
+</html>

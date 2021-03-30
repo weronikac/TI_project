@@ -1,0 +1,29 @@
+#navform {
+    display: none;
+  }
+  #nav {
+    display: none;
+  }
+
+  #navlz {
+    display: none;
+  }
+
+  #navlogged {
+    display: none;
+  }
+
+  #form {
+    display: none;
+  }
+
+  #login {
+    display: none;
+  }
+
+  #register {
+    display: none;
+  }
+  #charts {
+    display: none;
+  }
